@@ -10,7 +10,7 @@ from utils.singleton import Singleton
 
 class PlayerManager(object, metaclass=Singleton):
     """
-    Class to play music with mplayer
+    Class to play music with mpg123
     """
     MPLAYER_EXEC_PATH = "mpg123"
 
@@ -78,7 +78,7 @@ class PlayerManager(object, metaclass=Singleton):
             await asyncio.sleep(seconds)
             if not event.is_set():
                 print("Timer exceeded. Killing player")
-                command = "killall mplayer"
+                command = "killall mpg123"
                 await self.run_command(command)
                 print("Player killed")
                 event.set()
@@ -133,14 +133,14 @@ class PlayerManager(object, metaclass=Singleton):
     @staticmethod
     def stop():
         """
-        Kill mplayer process
+        Kill mpg123 process
         """
-        p = subprocess.Popen("killall mplayer", shell=True)
+        p = subprocess.Popen("killall mpg123", shell=True)
         p.communicate()
 
     @staticmethod
     def is_started():
-        process_name = "mplayer"
+        process_name = "mpg123"
         # Iterate over the all the running process
         for proc in psutil.process_iter():
             try:
