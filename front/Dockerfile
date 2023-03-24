@@ -1,10 +1,10 @@
 # BUILD
-# docker build --force-rm=true -t piclodio-front .
+# docker build --force-rm=true -t radiogaga-front .
 
 # RUN
 # docker run -it --rm \
 # -p 80:80 \
-# piclodio-front
+# radiogaga-front
 
 ### Stage 1: build ###
 
@@ -34,7 +34,7 @@ FROM nginx:1.16.1-alpine
 RUN rm -rf /usr/share/nginx/html/*
 
 # Copy output directory from builder to nginx image
-COPY --from=builder /app/dist/piclodio3-front /usr/share/nginx/html
+COPY --from=builder /app/dist/radiogaga-front /usr/share/nginx/html
 
 # Copy nginx configuration file
 COPY ./nginx/nginx.conf /etc/nginx/conf.d/default.conf

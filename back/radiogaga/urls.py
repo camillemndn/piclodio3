@@ -1,4 +1,4 @@
-"""piclodio3 URL Configuration
+"""radiogaga URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -23,7 +23,7 @@ from rest_framework import permissions
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="Piclodio",
+      title="RadioGaGa",
       default_version='v1',
       description="RPI Clock Radio",
       license=openapi.License(name="MIT License"),

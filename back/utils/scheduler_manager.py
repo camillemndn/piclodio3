@@ -5,7 +5,7 @@ from apscheduler.jobstores.base import JobLookupError
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 
-from piclodio3 import settings
+from radiogaga import settings
 from utils.player_manager import PlayerManager
 from utils.singleton import Singleton
 

@@ -3,10 +3,10 @@ version: "3.7"
 services:
 
   backend:
-    image: sispheor/piclodio-back
+    image: sispheor/radiogaga-back
     volumes:
       - /tmp/static:/code/static
-      - ${PWD}/piclodio_db:/code/db
+      - ${PWD}/radiogaga_db:/code/db
     devices:
       - /dev/snd:/dev/snd # audio control
     ports:
@@ -14,7 +14,7 @@ services:
     restart: always
 
   frontend:
-    image: sispheor/piclodio-front
+    image: sispheor/radiogaga-front
     ports:
       - "80:80"
     volumes:

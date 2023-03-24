@@ -10,7 +10,7 @@ describe('workspace-project App', () => {
 
   it('should display welcome message', () => {
     page.navigateTo();
-    expect(page.getTitleText()).toEqual('piclodio3-front app is running!');
+    expect(page.getTitleText()).toEqual('radiogaga-front app is running!');
   });
 
   afterEach(async () => {

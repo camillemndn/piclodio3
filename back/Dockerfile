@@ -1,12 +1,12 @@
 # BUILD
-# docker build --force-rm=true -t piclodio-back .
+# docker build --force-rm=true -t radiogaga-back .
 
 # RUN
 # docker run -it --rm \
-# -v /home/nico/Desktop/piclodio_db:/code/back/db.sqlite3 \
+# -v /home/nico/Desktop/radiogaga_db:/code/back/db.sqlite3 \
 # -v /dev/snd:/dev/snd \
 # -p 8000:8000 \
-# piclodio-back
+# radiogaga-back
 
 FROM python:3.7
 

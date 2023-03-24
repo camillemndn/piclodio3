@@ -1,4 +1,4 @@
-# Piclodio 3 backend
+# RadioGaGa 3 backend
 
 ## Development installation
 
@@ -33,14 +33,14 @@ python3 manage.py test
 
 ## Production server
 
-Switch the server to prod mode by editing the file `back/piclodio3/settings.py` and update the line that correspond to the debug
+Switch the server to prod mode by editing the file `back/radiogaga/settings.py` and update the line that correspond to the debug
 ```python
 DEBUG = False
 ```
 
 Run the prod server
 ```
-gunicorn --bind 0.0.0.0:8000 piclodio3.wsgi:application
+gunicorn --bind 0.0.0.0:8000 radiogaga.wsgi:application
 ```
 
 ### Automatically at each startup with systemd (Prod)
@@ -59,8 +59,8 @@ After=network.target
 [Service]
 User=pi
 Group=pi
-WorkingDirectory=/home/pi/piclodio3/back
-ExecStart=gunicorn --bind 0.0.0.0:8000 piclodio3.wsgi:application
+WorkingDirectory=/home/pi/radiogaga/back
+ExecStart=gunicorn --bind 0.0.0.0:8000 radiogaga.wsgi:application
 
 [Install]
 WantedBy=multi-user.target
