@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +17,7 @@ import { AlarmFormComponent } from './alarm-form/alarm-form.component';
 import { ModalConfirmDeletionComponent } from './modal-confirm-deletion/modal-confirm-deletion.component';
 import { SettingsComponent } from './settings/settings.component';
 import { ToastsContainer } from './toast-container.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -70,7 +71,13 @@ import { ToastsContainer } from './toast-container.component';
         path: 'settings',
         component: SettingsComponent
     },
-], {})
+], {}),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [globalVariables],
   bootstrap: [AppComponent]
