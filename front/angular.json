@@ -128,7 +128,6 @@
       }
     }
   },
-  "defaultProject": "radiogaga-front",
   "cli": {
     "analytics": false
   }

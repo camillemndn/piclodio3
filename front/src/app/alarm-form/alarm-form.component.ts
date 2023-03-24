@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Alarm } from '../models/alarm';
 import { WebRadioService } from '../services/webradio.service';
 import { Webradio } from '../models/webradio';
-import { FormGroup, FormControl, ValidatorFn, Validators  } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl, ValidatorFn, Validators  } from '@angular/forms';
 import { AlarmsService } from '../services/alarms.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
@@ -64,39 +64,39 @@ export class AlarmFormComponent implements OnInit {
   }
 
   createEmptyForm() {
-    this.form = new FormGroup({
-      name: new FormControl('', [Validators.required]),
-      dayOfWeekCheckboxGroup: new FormGroup({
-        monday: new FormControl(false),
-        tuesday: new FormControl(false),
-        wednesday: new FormControl(false),
-        thursday: new FormControl(false),
-        friday: new FormControl(false),
-        saturday: new FormControl(false),
-        sunday: new FormControl(false),
+    this.form = new UntypedFormGroup({
+      name: new UntypedFormControl('', [Validators.required]),
+      dayOfWeekCheckboxGroup: new UntypedFormGroup({
+        monday: new UntypedFormControl(false),
+        tuesday: new UntypedFormControl(false),
+        wednesday: new UntypedFormControl(false),
+        thursday: new UntypedFormControl(false),
+        friday: new UntypedFormControl(false),
+        saturday: new UntypedFormControl(false),
+        sunday: new UntypedFormControl(false),
       }, requireCheckboxesToBeCheckedValidator()),
-      time: new FormControl(this.default_time, [Validators.required]),
-      auto_stop_minutes: new FormControl(0, [Validators.required]),
-      webradio: new FormControl('', [Validators.required])
+      time: new UntypedFormControl(this.default_time, [Validators.required]),
+      auto_stop_minutes: new UntypedFormControl(0, [Validators.required]),
+      webradio: new UntypedFormControl('', [Validators.required])
     });
 
   }
 
   createFormFromModel(alarm: Alarm) {
-    this.form = new FormGroup({
-      name: new FormControl(alarm.name, [Validators.required]),
-      dayOfWeekCheckboxGroup: new FormGroup({
-        monday: new FormControl(alarm.monday),
-        tuesday: new FormControl(alarm.tuesday),
-        wednesday: new FormControl(alarm.wednesday),
-        thursday: new FormControl(alarm.thursday),
-        friday: new FormControl(alarm.friday),
-        saturday: new FormControl(alarm.saturday),
-        sunday: new FormControl(alarm.sunday),
+    this.form = new UntypedFormGroup({
+      name: new UntypedFormControl(alarm.name, [Validators.required]),
+      dayOfWeekCheckboxGroup: new UntypedFormGroup({
+        monday: new UntypedFormControl(alarm.monday),
+        tuesday: new UntypedFormControl(alarm.tuesday),
+        wednesday: new UntypedFormControl(alarm.wednesday),
+        thursday: new UntypedFormControl(alarm.thursday),
+        friday: new UntypedFormControl(alarm.friday),
+        saturday: new UntypedFormControl(alarm.saturday),
+        sunday: new UntypedFormControl(alarm.sunday),
       }, requireCheckboxesToBeCheckedValidator()),
-      time: new FormControl( { hour: alarm.hour, minute: alarm.minute}, [Validators.required]),
-      auto_stop_minutes: new FormControl(alarm.auto_stop_minutes, [Validators.required]),
-      webradio: new FormControl(alarm.webradio, [Validators.required])
+      time: new UntypedFormControl( { hour: alarm.hour, minute: alarm.minute}, [Validators.required]),
+      auto_stop_minutes: new UntypedFormControl(alarm.auto_stop_minutes, [Validators.required]),
+      webradio: new UntypedFormControl(alarm.webradio, [Validators.required])
     });
   }
 
@@ -152,7 +152,7 @@ export class AlarmFormComponent implements OnInit {
 }
 
 export function requireCheckboxesToBeCheckedValidator(minRequired = 1): ValidatorFn {
-  return function validate(formGroup: FormGroup) {
+  return function validate(formGroup: UntypedFormGroup) {
     let checked = 0;
 
     Object.keys(formGroup.controls).forEach(key => {
