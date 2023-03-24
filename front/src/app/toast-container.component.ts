@@ -13,7 +13,7 @@ import { ToastService } from './services/toast.service';
       [delay]="toast.delay || 5000"
       (hide)="toastService.remove(toast)"
     >
-      <i class="fa fa-info-circle"></i>
+      <i class="fa-solid fa-info-circle"></i>
       <ng-template [ngIf]="isTemplate(toast)" [ngIfElse]="text">
         <ng-template [ngTemplateOutlet]="toast.textOrTpl"></ng-template>
       </ng-template>

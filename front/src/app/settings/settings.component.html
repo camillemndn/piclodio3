@@ -10,11 +10,11 @@
     <div class="row justify-content-center">
         <div class="col col-lg-2">
             <button (click)="volumeDown()" class='btn btn-primary btn-lg btn-block'>
-                <i class="fa fa-volume-down"></i></button>
+                <i class="fa-solid fa-volume-down"></i></button>
         </div>
         <div class="col col-lg-2">
             <button (click)="volumeUp()" class='btn btn-primary btn-lg btn-block'>
-                <i class="fa fa-volume-up"></i></button>
+                <i class="fa-solid fa-volume-up"></i></button>
         </div>
     </div>
 </div>
@@ -37,7 +37,7 @@
                         <div class="text-success">{{ backupFileName }}</div>
                     </div>
                     <div *ngIf="!backupFileName">
-                        <div class="text-danger"><i class="fa fa-exclamation-triangle"></i> No backup file set</div>
+                        <div class="text-danger"><i class="fa-solid fa-exclamation-triangle"></i> No backup file set</div>
                     </div>
                 </td>
                 <td>
