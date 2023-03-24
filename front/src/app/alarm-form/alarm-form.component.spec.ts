@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { AlarmFormComponent } from './alarm-form.component';
 
@@ -6,7 +6,7 @@ describe('AlarmFormComponent', () => {
   let component: AlarmFormComponent;
   let fixture: ComponentFixture<AlarmFormComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ AlarmFormComponent ]
     })

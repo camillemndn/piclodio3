@@ -41,36 +41,36 @@ import { ToastsContainer } from './toast-container.component';
     ReactiveFormsModule,
     NgbModule,
     RouterModule.forRoot([
-      { path: '', component: HomepageComponent },
-      {
+    { path: '', component: HomepageComponent },
+    {
         path: 'webradios',
         component: WebradioComponent
-      },
-      {
+    },
+    {
         path: 'webradios/new',
         component: WebradioFormComponent
-      },
-      {
+    },
+    {
         path: 'webradios/:id',
         component: WebradioFormComponent
-      },
-      {
+    },
+    {
         path: 'alarms',
         component: AlarmsComponent
-      },
-      {
+    },
+    {
         path: 'alarms/new',
         component: AlarmFormComponent
-      },
-      {
+    },
+    {
         path: 'alarms/:id',
         component: AlarmFormComponent
-      },
-      {
+    },
+    {
         path: 'settings',
         component: SettingsComponent
-      },
-    ])
+    },
+], { relativeLinkResolution: 'legacy' })
   ],
   providers: [globalVariables],
   bootstrap: [AppComponent]

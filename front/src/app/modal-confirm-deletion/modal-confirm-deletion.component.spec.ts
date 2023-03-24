@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ModalConfirmDeletionComponent } from './modal-confirm-deletion.component';
 
@@ -6,7 +6,7 @@ describe('ModalConfirmDeletionComponent', () => {
   let component: ModalConfirmDeletionComponent;
   let fixture: ComponentFixture<ModalConfirmDeletionComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ModalConfirmDeletionComponent ]
     })

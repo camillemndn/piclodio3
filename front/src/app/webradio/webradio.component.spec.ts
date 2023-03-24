@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { WebradioComponent } from './webradio.component';
 
@@ -6,7 +6,7 @@ describe('WebradioComponent', () => {
   let component: WebradioComponent;
   let fixture: ComponentFixture<WebradioComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ WebradioComponent ]
     })
