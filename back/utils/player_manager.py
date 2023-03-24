@@ -12,7 +12,7 @@ class PlayerManager(object, metaclass=Singleton):
     """
     Class to play music with mplayer
     """
-    MPLAYER_EXEC_PATH = "/usr/bin/mplayer"
+    MPLAYER_EXEC_PATH = "mpg123"
 
     def threaded_start(self, url):
         """
@@ -48,7 +48,7 @@ class PlayerManager(object, metaclass=Singleton):
 
     async def start_player_task(self, url):
         print("starting player with URL {}".format(url))
-        command = "/usr/bin/mplayer {}".format(url)
+        command = "mpg123 {}".format(url)
         await self.run_command(command)
         print("Player stopped")
 
@@ -89,7 +89,7 @@ class PlayerManager(object, metaclass=Singleton):
 
     async def run_backup_file(self, file_path):
         print("Running backup MP3 file '{file_path}'")
-        command = "/usr/bin/mplayer {}".format(file_path)
+        command = "mpg123 {}".format(file_path)
         await self.run_command(command)
 
     async def run_command(self, command):
