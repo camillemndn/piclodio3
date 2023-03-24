@@ -70,7 +70,7 @@ import { ToastsContainer } from './toast-container.component';
         path: 'settings',
         component: SettingsComponent
     },
-], { relativeLinkResolution: 'legacy' })
+], {})
   ],
   providers: [globalVariables],
   bootstrap: [AppComponent]
