@@ -6,6 +6,7 @@ import asyncio
 import psutil
 
 from utils.singleton import Singleton
+from utils.sound_manager import SoundManager
 
 
 class PlayerManager(object, metaclass=Singleton):
@@ -49,9 +50,21 @@ class PlayerManager(object, metaclass=Singleton):
     async def start_player_task(self, url):
         print("starting player with URL {}".format(url))
         command = "mpg123 {}".format(url)
-        await self.run_command(command)
+        fade_in_task = asyncio.create_task(self.fade_in())
+        await asyncio.gather(fade_in_task, self.run_command(command))
         print("Player stopped")
 
+    async def fade_in(self):
+        init_volume = SoundManager.get_volume()
+        print("Initial volume is {}".format(SoundManager.get_volume()))
+        SoundManager.set_volume(0)
+        print("Setting volume to {}".format(SoundManager.get_volume()))
+        for i in range(10*init_volume):
+            SoundManager.set_volume(0.1*i)
+            print("Setting volume to {}".format(SoundManager.get_volume()))
+            await asyncio.sleep(0.2)
+        print("Fading in complete")
+    
     async def check_player_task(self, event, seconds, backup_file_path):
         if backup_file_path is not None:
             print("Wait '{}' seconds before checking player process...".format(seconds))
