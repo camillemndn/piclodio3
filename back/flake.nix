@@ -15,6 +15,7 @@
             python310
             mpg123
             killall
+            spotify-tui
           ]) ++ (with pkgs.python310.pkgs; [
             pip
             virtualenv

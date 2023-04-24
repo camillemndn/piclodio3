@@ -49,7 +49,12 @@ class PlayerManager(object, metaclass=Singleton):
 
     async def start_player_task(self, url):
         print("starting player with URL {}".format(url))
-        command = "mpg123 {}".format(url)
+        if "spotify" in url:
+            url = url.split("//")[-1]
+            media, id = url.split("/")[1::]
+            command = 'spt p -u "spotify:{0}:{1}" -d "genesis" -r'.format(media, id.split("?")[0])
+        else:
+            command = "mpg123 {}".format(url)
         fade_in_task = asyncio.create_task(self.fade_in())
         await asyncio.gather(fade_in_task, self.run_command(command))
         print("Player stopped")
@@ -93,6 +98,10 @@ class PlayerManager(object, metaclass=Singleton):
                 print("Timer exceeded. Killing player")
                 command = "killall mpg123"
                 await self.run_command(command)
+                spt_state = subprocess.Popen(["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
+                if spt_state[0] == '▶':
+                    command = "spt pb -t"
+                    await self.run_command(command)
                 print("Player killed")
                 event.set()
                 return True
@@ -151,8 +160,16 @@ class PlayerManager(object, metaclass=Singleton):
         p = subprocess.Popen("killall mpg123", shell=True)
         p.communicate()
 
+        spt_state = subprocess.Popen(["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
+        if spt_state[0] == '▶':
+            p = subprocess.Popen(["spt", "pb", "-t"])
+            p.communicate()
+
     @staticmethod
     def is_started():
+        spt_state = subprocess.Popen(["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
+        if spt_state[0] == '▶':
+            return True
         process_name = "mpg123"
         # Iterate over the all the running process
         for proc in psutil.process_iter():
