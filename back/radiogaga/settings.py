@@ -16,6 +16,7 @@ import os
 BASE_DIR_DEFAULT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BASE_DIR = os.getenv('BASE_DIR', default=BASE_DIR_DEFAULT)
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
