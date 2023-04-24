@@ -1,19 +1,20 @@
-# RadioGaGa
-[![Gitter](https://badges.gitter.im/gitterHQ/gitter.svg)](https://gitter.im/radiogaga/Lobby)
+# RadioGaGa (forked from https://github.com/Sispheor/piclodio3)
 
 RadioGaGa is a web radio player and a also an alarm clock that can be installed on Raspberry Pi.
 You can add url stream to complete the collection. Scheduling alarm clock is easy and can be periodic.
 A local backup MP3 file is used in case of losing internet connection or if the web radio is not anymore available to be sure you'll be awaken.
 
-![homepage](images/homepage.png)
-
 ## Installation
+
+### Via Nix
+
+*coming soon*
 
 ### Via Docker
 
 The project can be deployed via the provided docker compose file. Check [this doc](doc/install_docker_rpi.md) to install Docker and docker-compose on your RPI.
 ```
-git clone https://github.com/Sispheor/radiogaga.git
+git clone https://github.com/camillemndn/radiogaga.git
 cd radiogaga
 docker-compose up -d
 ```
@@ -59,13 +60,8 @@ amixer cset numid=3 1
 - 2: HDMI
 - 3: auto
 
-## Contribute
-
-If you need help you can come on the [Gitter chat room](https://gitter.im/radiogaga/Lobby).
-Fell free to open an issue to ask a new feature or raise a bug.
-
 ## License
 
-Copyright (c) 2016. All rights reserved.
+Copyright (c) 2023. All rights reserved.
 
 RadioGaGa is covered by the MIT license, a permissive free software license that lets you do anything you want with the source code, as long as you provide back attribution and "don't hold you liable". For the full license text see the [LICENSE.md](LICENSE.md) file.
