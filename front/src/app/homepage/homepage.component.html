@@ -31,7 +31,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let active_alarm of active_alarms">
+            <tr *ngFor="let active_alarm of active_alarms" type="button" [routerLink]="['/alarms', active_alarm.id]">
                 <td class="col-1 text-center">{{active_alarm.name}}</td>
                 <td class="col-1 {{ active_alarm.monday  ? 'table-success' : '' }}"></td>
                 <td class="col-1 {{ active_alarm.tuesday  ? 'table-success' : '' }}"></td>
@@ -42,7 +42,7 @@
                 <td class="col-1 {{ active_alarm.sunday  ? 'table-success' : '' }}"></td>
                 <td class="col-1 text-center">
                     {{ active_alarm.hour < 10 ? '0' : '' }}{{active_alarm.hour}}:{{ active_alarm.minute < 10 ? '0' : '' }}{{active_alarm.minute}}
-                </td>
+              </td>
             </tr>
         </tbody>
     </table>
