@@ -39,7 +39,7 @@ class SchedulerManager(object, metaclass=Singleton):
             backup_file_path = backup_files[0].backup_file.url
             print("Path to the backup MP3: {}".format(backup_file_path))
         print("play_web_radio triggered by scheduler")
-        PlayerManager().async_start(self.loop, url, auto_stop_minutes, backup_file_path)
+        PlayerManager().async_start(self.loop, url, auto_stop_minutes, True, backup_file_path)
         print("play_web_radio thread terminated")
 
     def add_job_for_each_alarm_clock(self):

@@ -22,20 +22,20 @@ class PlayerManager(object, metaclass=Singleton):
         """
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        main_thread = threading.Thread(target=self.async_start, args=[loop, url])
+        main_thread = threading.Thread(target=self.async_start, args=[loop, url, False])
         main_thread.start()
 
-    def async_start(self, loop, url, auto_stop_minutes=0, backup_file_path=None):
+    def async_start(self, loop, url, fade=True, auto_stop_minutes=0, backup_file_path=None):
         seconds = auto_stop_minutes * 60    # need to convert in seconds
-        loop.run_until_complete(self.main_loop(url, seconds, backup_file_path))
+        loop.run_until_complete(self.main_loop(url, seconds, backup_file_path, fade))
 
-    async def main_loop(self, url, auto_stop_seconds, backup_file_path, second_to_wait_before_check=35):
+    async def main_loop(self, url, auto_stop_seconds, backup_file_path, fade, second_to_wait_before_check=35):
         print(f"started at {time.strftime('%X')}")
         # Create an Event object
         event = asyncio.Event()
 
         start_player_task = asyncio.create_task(
-            self.start_player_task(url))
+            self.start_player_task(url, fade))
         check_player_alive_task = asyncio.create_task(
             self.check_player_task(event, second_to_wait_before_check, backup_file_path))
         auto_stop_task = asyncio.create_task(
@@ -47,7 +47,7 @@ class PlayerManager(object, metaclass=Singleton):
 
         print(f"finished at {time.strftime('%X')}")
 
-    async def start_player_task(self, url):
+    async def start_player_task(self, url, fade=True):
         print("starting player with URL {}".format(url))
         if "spotify" in url:
             url = url.split("//")[-1]
@@ -55,8 +55,12 @@ class PlayerManager(object, metaclass=Singleton):
             command = 'spt p -u "spotify:{0}:{1}" -d "radiogaga" -r'.format(media, id.split("?")[0])
         else:
             command = "mpg123 {}".format(url)
-        fade_in_task = asyncio.create_task(self.fade_in())
-        await asyncio.gather(fade_in_task, self.run_command(command))
+        if fade:
+            fade_in_task = asyncio.create_task(self.fade_in())
+            await asyncio.gather(fade_in_task, self.run_command(command))
+        else:
+            await self.run_command(command)
+
         print("Player stopped")
 
     async def fade_in(self):
