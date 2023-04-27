@@ -52,7 +52,7 @@ class PlayerManager(object, metaclass=Singleton):
         if "spotify" in url:
             url = url.split("//")[-1]
             media, id = url.split("/")[1::]
-            command = 'spt p -u "spotify:{0}:{1}" -d "genesis" -r'.format(media, id.split("?")[0])
+            command = 'spt p -u "spotify:{0}:{1}" -d "radiogaga" -r'.format(media, id.split("?")[0])
         else:
             command = "mpg123 {}".format(url)
         fade_in_task = asyncio.create_task(self.fade_in())
