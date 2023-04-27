@@ -99,7 +99,7 @@ class PlayerManager(object, metaclass=Singleton):
                 command = "killall mpg123"
                 await self.run_command(command)
                 spt_state = subprocess.Popen(["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
-                if spt_state[0] == '▶':
+                if len(spt_state) != 0 and spt_state[0] == '▶':
                     command = "spt pb -t"
                     await self.run_command(command)
                 print("Player killed")
@@ -161,14 +161,14 @@ class PlayerManager(object, metaclass=Singleton):
         p.communicate()
 
         spt_state = subprocess.Popen(["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
-        if spt_state[0] == '▶':
+        if len(spt_state) != 0 and spt_state[0] == '▶':
             p = subprocess.Popen(["spt", "pb", "-t"])
             p.communicate()
 
     @staticmethod
     def is_started():
         spt_state = subprocess.Popen(["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
-        if spt_state[0] == '▶':
+        if len(spt_state) != 0 and spt_state[0] == '▶':
             return True
         process_name = "mpg123"
         # Iterate over the all the running process
