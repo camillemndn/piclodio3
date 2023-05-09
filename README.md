@@ -1,4 +1,4 @@
-# RadioGaGa (forked from https://github.com/Sispheor/piclodio3)
+# RadioGaGa (forked from [piclodio3](https://github.com/Sispheor/piclodio3))
 
 RadioGaGa is a web radio player and a also an alarm clock that can be installed on Raspberry Pi.
 You can add url stream to complete the collection. Scheduling alarm clock is easy and can be periodic.
