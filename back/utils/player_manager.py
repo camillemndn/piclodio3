@@ -22,14 +22,16 @@ class PlayerManager(object, metaclass=Singleton):
         """
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        main_thread = threading.Thread(target=self.async_start, args=[loop, url, False])
+        main_thread = threading.Thread(
+            target=self.async_start, args=[loop, url, False])
         main_thread.start()
 
     def async_start(self, loop, url, fade=True, auto_stop_minutes=0, backup_file_path=None):
         seconds = auto_stop_minutes * 60    # need to convert in seconds
-        loop.run_until_complete(self.main_loop(url, seconds, backup_file_path, fade))
+        loop.run_until_complete(self.main_loop(
+            url, seconds, backup_file_path, fade))
 
-    async def main_loop(self, url, auto_stop_seconds, backup_file_path, fade, second_to_wait_before_check=35):
+    async def main_loop(self, url, auto_stop_seconds, backup_file_path, fade=True, second_to_wait_before_check=35):
         print(f"started at {time.strftime('%X')}")
         # Create an Event object
         event = asyncio.Event()
@@ -52,7 +54,8 @@ class PlayerManager(object, metaclass=Singleton):
         if "spotify" in url:
             url = url.split("//")[-1]
             media, id = url.split("/")[1::]
-            command = 'spt p -u "spotify:{0}:{1}" -d "radiogaga" -r'.format(media, id.split("?")[0])
+            command = 'spt p -u "spotify:{0}:{1}" -d "radiogaga" -r'.format(
+                media, id.split("?")[0])
         else:
             command = "mpg123 {}".format(url)
         if fade:
@@ -73,7 +76,7 @@ class PlayerManager(object, metaclass=Singleton):
             print("Setting volume to {}".format(SoundManager.get_volume()))
             await asyncio.sleep(0.2)
         print("Fading in complete")
-    
+
     async def check_player_task(self, event, seconds, backup_file_path):
         if backup_file_path is not None:
             print("Wait '{}' seconds before checking player process...".format(seconds))
@@ -102,8 +105,9 @@ class PlayerManager(object, metaclass=Singleton):
                 print("Timer exceeded. Killing player")
                 command = "killall mpg123"
                 await self.run_command(command)
-                spt_state = subprocess.Popen(["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
-                if len(spt_state) != 0 and spt_state[0] == '▶':
+                spt_state = subprocess.Popen(
+                    ["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
+                if '▶' in spt_state:
                     command = "spt pb -t"
                     await self.run_command(command)
                 print("Player killed")
@@ -164,15 +168,17 @@ class PlayerManager(object, metaclass=Singleton):
         p = subprocess.Popen("killall mpg123", shell=True)
         p.communicate()
 
-        spt_state = subprocess.Popen(["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
-        if len(spt_state) != 0 and spt_state[0] == '▶':
+        spt_state = subprocess.Popen(
+            ["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
+        if '▶' in spt_state:
             p = subprocess.Popen(["spt", "pb", "-t"])
             p.communicate()
 
     @staticmethod
     def is_started():
-        spt_state = subprocess.Popen(["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
-        if len(spt_state) != 0 and spt_state[0] == '▶':
+        spt_state = subprocess.Popen(
+            ["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
+        if '▶' in spt_state:
             return True
         process_name = "mpg123"
         # Iterate over the all the running process
