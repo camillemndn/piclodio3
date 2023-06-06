@@ -32,6 +32,7 @@
             buildInputs = with pkgs; [
               mpg123
               killall
+              spotify-tui
               (python3.withPackages python-packages)
             ];
           };
