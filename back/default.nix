@@ -1,31 +1,28 @@
-# shell.nix
-{ pkgs ? import <nixpkgs> { } }:
-let
-  pyalsaaudio = pkgs.callPackage /etc/nixos/pkgs/development/python-modules/pyalsaaudio { };
-  my-python-packages = p: with p; [
-    django
-    django-filter
-    djangorestframework
-    markdown
-    drf-yasg
-    apscheduler
-    sqlalchemy
-    psutil
-    django-cors-headers
-    gunicorn
-    pyyaml
-    packaging
-    pyalsaaudio
+{ lib
+, python3
+, fetchPypi
+, alsa-lib
+}:
 
-  ];
-  my-python = pkgs.python3.withPackages my-python-packages;
-in
+python3.pkgs.buildPythonPackage rec {
+  pname = "pyalsaaudio";
+  version = "0.10.0";
+  format = "setuptools";
 
-pkgs.mkShell {
-  packages = with pkgs; [
-    mpg123
-    killall
-    (python3.withPackages my-python-packages) # we have defined this in the installation section
-  ];
+  src = fetchPypi {
+    inherit pname version;
+    hash = "sha256-4hF1UAor0xCuOGfnmRY53vweKlySzxufcIMpazRnOKs=";
+  };
+
+  buildInputs = [ alsa-lib ];
+  doCheck = false;
+  pythonImportsCheck = [ "alsaaudio" ];
+
+  meta = with lib; {
+    description = "ALSA bindings";
+    homepage = "https://pypi.org/project/pyalsaaudio/";
+    license = with licenses; [ psfl ];
+    maintainers = with maintainers; [ camillemndn ];
+    platforms = platforms.all;
+  };
 }
-

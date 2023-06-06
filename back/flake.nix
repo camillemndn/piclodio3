@@ -9,18 +9,36 @@
         pkgs = nixpkgs.legacyPackages.${system};
       in
       {
-        devShells.default = pkgs.mkShell {
-          nativeBuildInputs = [ pkgs.bashInteractive ];
-          buildInputs = (with pkgs; [
-            python310
-            mpg123
-            killall
-            spotify-tui
-          ]) ++ (with pkgs.python310.pkgs; [
-            pip
-            virtualenv
-          ]);
-        };
+        devShells.default =
+          let
+            python-packages = p: with p; [
+              django
+              django-filter
+              djangorestframework
+              markdown
+              drf-yasg
+              apscheduler
+              sqlalchemy
+              psutil
+              django-cors-headers
+              gunicorn
+              pyyaml
+              packaging
+              (callPackage ./. { })
+            ];
+          in
+          pkgs.mkShell {
+            nativeBuildInputs = [ pkgs.bashInteractive ];
+            buildInputs = with pkgs; [
+              mpg123
+              killall
+              (python3.withPackages python-packages)
+            ];
+          };
+
+        packages.pyalsaaudio = pkgs.callPackage ./. { };
       });
 }
+
+
 
