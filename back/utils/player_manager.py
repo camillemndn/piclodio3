@@ -66,15 +66,13 @@ class PlayerManager(object, metaclass=Singleton):
 
         print("Player stopped")
 
-    async def fade_in(self):
+    async def fade_in(self, seconds=3 * 60):
         init_volume = SoundManager.get_volume()
         print("Initial volume is {}".format(SoundManager.get_volume()))
-        SoundManager.set_volume(0)
-        print("Setting volume to {}".format(SoundManager.get_volume()))
-        for i in range(10*init_volume):
-            SoundManager.set_volume(0.1*i)
+        for i in range(10 * init_volume + 1):
+            SoundManager.set_volume(0.1 * i)
             print("Setting volume to {}".format(SoundManager.get_volume()))
-            await asyncio.sleep(0.2)
+            await asyncio.sleep(0.1 * seconds / init_volume)
         print("Fading in complete")
 
     async def check_player_task(self, event, seconds, backup_file_path):
