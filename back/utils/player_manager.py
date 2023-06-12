@@ -11,9 +11,9 @@ from utils.sound_manager import SoundManager
 
 class PlayerManager(object, metaclass=Singleton):
     """
-    Class to play music with mpg123
+    Class to play music with mpv
     """
-    MPLAYER_EXEC_PATH = "mpg123"
+    MPLAYER_EXEC_PATH = "mpv"
 
     def threaded_start(self, url):
         """
@@ -57,7 +57,7 @@ class PlayerManager(object, metaclass=Singleton):
             command = 'spt p -u "spotify:{0}:{1}" -d "radiogaga" -r'.format(
                 media, id.split("?")[0])
         else:
-            command = "mpg123 {}".format(url)
+            command = "mpv {}".format(url)
         if fade:
             fade_in_task = asyncio.create_task(self.fade_in())
             await asyncio.gather(fade_in_task, self.run_command(command))
@@ -101,7 +101,7 @@ class PlayerManager(object, metaclass=Singleton):
             await asyncio.sleep(seconds)
             if not event.is_set():
                 print("Timer exceeded. Killing player")
-                command = "killall mpg123"
+                command = "killall mpv"
                 await self.run_command(command)
                 spt_state = subprocess.Popen(
                     ["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
@@ -117,7 +117,7 @@ class PlayerManager(object, metaclass=Singleton):
 
     async def run_backup_file(self, file_path):
         print("Running backup MP3 file '{file_path}'")
-        command = "mpg123 {}".format(file_path)
+        command = "mpv {}".format(file_path)
         await self.run_command(command)
 
     async def run_command(self, command):
@@ -161,9 +161,9 @@ class PlayerManager(object, metaclass=Singleton):
     @staticmethod
     def stop():
         """
-        Kill mpg123 process
+        Kill mpv process
         """
-        p = subprocess.Popen("killall mpg123", shell=True)
+        p = subprocess.Popen("killall mpv", shell=True)
         p.communicate()
 
         spt_state = subprocess.Popen(
@@ -178,7 +178,7 @@ class PlayerManager(object, metaclass=Singleton):
             ["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
         if '▶' in spt_state:
             return True
-        process_name = "mpg123"
+        process_name = "mpv"
         # Iterate over the all the running process
         for proc in psutil.process_iter():
             try:

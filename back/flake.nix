@@ -30,7 +30,7 @@
           pkgs.mkShell {
             nativeBuildInputs = [ pkgs.bashInteractive ];
             buildInputs = with pkgs; [
-              mpg123
+              mpv
               killall
               spotify-tui
               (python3.withPackages python-packages)
