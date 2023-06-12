@@ -69,7 +69,7 @@ class PlayerManager(object, metaclass=Singleton):
     async def fade_in(self, seconds=3 * 60):
         init_volume = SoundManager.get_volume()
         print("Initial volume is {}".format(SoundManager.get_volume()))
-        for i in range(10 * init_volume + 1):
+        for i in range(101):
             SoundManager.set_volume(0.1 * i)
             print("Setting volume to {}".format(SoundManager.get_volume()))
             await asyncio.sleep(0.1 * seconds / init_volume)
