@@ -54,7 +54,7 @@ class PlayerManager(object, metaclass=Singleton):
         if "spotify" in url:
             url = url.split("//")[-1]
             media, id = url.split("/")[1::]
-            command = 'spt p -u "spotify:{0}:{1}" -d "radiogaga" -r'.format(
+            command = 'spotify_player connect -n "radiogaga"; spotify_player playback start context -i {1} {0}'.format(
                 media, id.split("?")[0])
         else:
             command = "mpv {}".format(url)
@@ -103,9 +103,9 @@ class PlayerManager(object, metaclass=Singleton):
                 command = "killall mpv"
                 await self.run_command(command)
                 spt_state = subprocess.Popen(
-                    ["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
-                if '▶' in spt_state:
-                    command = "spt pb -t"
+                    ["spotify_player", "get", "key", "playback"], stdout=subprocess.PIPE).communicate()[0].decode()
+                if spt_state != "null":
+                    command = "spotify_player playback pause"
                     await self.run_command(command)
                 print("Player killed")
                 event.set()
@@ -166,16 +166,16 @@ class PlayerManager(object, metaclass=Singleton):
         p.communicate()
 
         spt_state = subprocess.Popen(
-            ["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
-        if '▶' in spt_state:
-            p = subprocess.Popen(["spt", "pb", "-t"])
+            ["spotify_player", "get", "key", "playback"], stdout=subprocess.PIPE).communicate()[0].decode()
+        if spt_state != "null":
+            p = subprocess.Popen(["spotify_player", "playback", "pause"])
             p.communicate()
 
     @staticmethod
     def is_started():
         spt_state = subprocess.Popen(
-            ["spt", "pb", "-s"], stdout=subprocess.PIPE).communicate()[0].decode()
-        if '▶' in spt_state:
+            ["spotify_player", "get", "key", "playback"], stdout=subprocess.PIPE).communicate()[0].decode()
+        if spt_state != "null":
             return True
         process_name = "mpv"
         # Iterate over the all the running process
