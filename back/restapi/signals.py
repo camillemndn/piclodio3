@@ -11,5 +11,6 @@ def delete_alarm_clock_callback(sender, **kwargs):
     """
     print("Signals delete alarm clock triggered")
     from utils.scheduler_manager import SchedulerManager
+
     scheduler_manager = SchedulerManager()
-    scheduler_manager.delete_job_by_id(kwargs['instance'].id)
+    scheduler_manager.delete_job_by_id(kwargs["instance"].id)

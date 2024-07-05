@@ -11,10 +11,10 @@ from utils.sound_manager import SoundManager
 class VolumeView(APIView):
     @swagger_auto_schema(
         responses={
-            '200': VolumeSerializer(),
+            "200": VolumeSerializer(),
         },
-        operation_id='Get volume',
-        operation_description='Get current volume'
+        operation_id="Get volume",
+        operation_description="Get current volume",
     )
     def get(self, request):
         """
@@ -26,12 +26,9 @@ class VolumeView(APIView):
         return Response(serializer.data)
 
     @swagger_auto_schema(
-        responses={
-            '200': VolumeSerializer(),
-            '400': "Bad request"
-        },
-        operation_id='Set volume',
-        operation_description='Set new volume level'
+        responses={"200": VolumeSerializer(), "400": "Bad request"},
+        operation_id="Set volume",
+        operation_description="Set new volume level",
     )
     def post(self, request):
         serializer = VolumeSerializer(data=request.data)

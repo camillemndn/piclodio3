@@ -13,6 +13,7 @@ class PlayerManager(object, metaclass=Singleton):
     """
     Class to play music with mpv
     """
+
     MPLAYER_EXEC_PATH = "mpv"
 
     def threaded_start(self, url):
@@ -22,26 +23,34 @@ class PlayerManager(object, metaclass=Singleton):
         """
         loop = asyncio.new_event_loop()
         asyncio.set_event_loop(loop)
-        main_thread = threading.Thread(
-            target=self.async_start, args=[loop, url, False])
+        main_thread = threading.Thread(target=self.async_start, args=[loop, url, False])
         main_thread.start()
 
-    def async_start(self, loop, url, fade=True, auto_stop_minutes=0, backup_file_path=None):
-        seconds = auto_stop_minutes * 60    # need to convert in seconds
-        loop.run_until_complete(self.main_loop(
-            url, seconds, backup_file_path, fade))
+    def async_start(
+        self, loop, url, fade=True, auto_stop_minutes=0, backup_file_path=None
+    ):
+        seconds = auto_stop_minutes * 60  # need to convert in seconds
+        loop.run_until_complete(self.main_loop(url, seconds, backup_file_path, fade))
 
-    async def main_loop(self, url, auto_stop_seconds, backup_file_path, fade=True, second_to_wait_before_check=35):
+    async def main_loop(
+        self,
+        url,
+        auto_stop_seconds,
+        backup_file_path,
+        fade=True,
+        second_to_wait_before_check=35,
+    ):
         print(f"started at {time.strftime('%X')}")
         # Create an Event object
         event = asyncio.Event()
 
-        start_player_task = asyncio.create_task(
-            self.start_player_task(url, fade))
+        start_player_task = asyncio.create_task(self.start_player_task(url, fade))
         check_player_alive_task = asyncio.create_task(
-            self.check_player_task(event, second_to_wait_before_check, backup_file_path))
+            self.check_player_task(event, second_to_wait_before_check, backup_file_path)
+        )
         auto_stop_task = asyncio.create_task(
-            self.auto_kill_player_task(event, seconds=auto_stop_seconds))
+            self.auto_kill_player_task(event, seconds=auto_stop_seconds)
+        )
 
         await start_player_task
         await check_player_alive_task
@@ -55,7 +64,8 @@ class PlayerManager(object, metaclass=Singleton):
             url = url.split("//")[-1]
             media, id = url.split("/")[1::]
             command = 'spotify_player connect -n "radiogaga"; spotify_player playback start context -i {1} {0}'.format(
-                media, id.split("?")[0])
+                media, id.split("?")[0]
+            )
         else:
             command = "mpv {}".format(url)
         if fade:
@@ -68,7 +78,7 @@ class PlayerManager(object, metaclass=Singleton):
 
     async def fade_in(self, seconds=3 * 60):
         print("Initial volume is {}".format(SoundManager.get_volume()))
-        for i in range(10*100+1):
+        for i in range(10 * 100 + 1):
             SoundManager.set_volume(0.1 * i)
             print("Setting volume to {}".format(SoundManager.get_volume()))
             await asyncio.sleep(0.1 * seconds / 100)
@@ -102,8 +112,14 @@ class PlayerManager(object, metaclass=Singleton):
                 print("Timer exceeded. Killing player")
                 command = "killall mpv"
                 await self.run_command(command)
-                spt_state = subprocess.Popen(
-                    ["spotify_player", "get", "key", "playback"], stdout=subprocess.PIPE).communicate()[0].decode()
+                spt_state = (
+                    subprocess.Popen(
+                        ["spotify_player", "get", "key", "playback"],
+                        stdout=subprocess.PIPE,
+                    )
+                    .communicate()[0]
+                    .decode()
+                )
                 if spt_state != "null":
                     command = "spotify_player playback pause"
                     await self.run_command(command)
@@ -165,16 +181,26 @@ class PlayerManager(object, metaclass=Singleton):
         p = subprocess.Popen("killall mpv", shell=True)
         p.communicate()
 
-        spt_state = subprocess.Popen(
-            ["spotify_player", "get", "key", "playback"], stdout=subprocess.PIPE).communicate()[0].decode()
+        spt_state = (
+            subprocess.Popen(
+                ["spotify_player", "get", "key", "playback"], stdout=subprocess.PIPE
+            )
+            .communicate()[0]
+            .decode()
+        )
         if spt_state != "null":
             p = subprocess.Popen(["spotify_player", "playback", "pause"])
             p.communicate()
 
     @staticmethod
     def is_started():
-        spt_state = subprocess.Popen(
-            ["spotify_player", "get", "key", "playback"], stdout=subprocess.PIPE).communicate()[0].decode()
+        spt_state = (
+            subprocess.Popen(
+                ["spotify_player", "get", "key", "playback"], stdout=subprocess.PIPE
+            )
+            .communicate()[0]
+            .decode()
+        )
         if spt_state != "null":
             return True
         process_name = "mpv"

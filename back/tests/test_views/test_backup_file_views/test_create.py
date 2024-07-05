@@ -14,7 +14,7 @@ class TestCreate(APITestCase):
 
     def setUp(self):
         super(TestCreate, self).setUp()
-        self.url = reverse('api:backup:list_create')
+        self.url = reverse("api:backup:list_create")
 
         self.valid_file = "/tmp/test_upload.mp3"
         self.invalid_file = "/tmp/test_upload.not_supported"
@@ -22,27 +22,27 @@ class TestCreate(APITestCase):
         # settings.MEDIA_ROOT = tempfile.mkdtemp()
 
     def tearDown(self) -> None:
-        path = os.path.join(settings.MEDIA_ROOT, 'backup_mp3/test_upload.mp3')
+        path = os.path.join(settings.MEDIA_ROOT, "backup_mp3/test_upload.mp3")
         if os.path.exists(path):
             os.remove(path)
 
     @staticmethod
     def _create_test_file(path):
-        f = open(path, 'w')
-        f.write('test123\n')
+        f = open(path, "w")
+        f.write("test123\n")
         f.close()
-        f = open(path, 'rb')
-        return {'backup_file': f}
+        f = open(path, "rb")
+        return {"backup_file": f}
 
     def test_upload_valid_backup_file(self):
         data = self._create_test_file(self.valid_file)
 
-        response = self.client.post(self.url, data, format='multipart')
-        expected = {'id': 1, 'backup_file': 'backup_mp3/test_upload.mp3'}
+        response = self.client.post(self.url, data, format="multipart")
+        expected = {"id": 1, "backup_file": "backup_mp3/test_upload.mp3"}
         self.assertEquals(expected, response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
     def test_upload_invalid_backup_file(self):
         data = self._create_test_file(self.invalid_file)
-        response = self.client.post(self.url, data, format='multipart')
+        response = self.client.post(self.url, data, format="multipart")
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)

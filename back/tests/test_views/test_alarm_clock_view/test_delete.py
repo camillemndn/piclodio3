@@ -10,12 +10,15 @@ class TestDelete(Base):
 
     def setUp(self):
         super(TestDelete, self).setUp()
-        self.url = reverse('api:alarmclocks:retrieve_update_destroy',
-                           kwargs={'pk': self.test_alarm.id})
+        self.url = reverse(
+            "api:alarmclocks:retrieve_update_destroy", kwargs={"pk": self.test_alarm.id}
+        )
 
     def test_delete(self):
-        with patch.object(SchedulerManager, 'delete_job_by_id', return_value=None) as mock_scheduler:
-            response = self.client.delete(self.url, format='json')
+        with patch.object(
+            SchedulerManager, "delete_job_by_id", return_value=None
+        ) as mock_scheduler:
+            response = self.client.delete(self.url, format="json")
             self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
             self.assertEqual(AlarmClock.objects.count(), 1)
             mock_scheduler.assert_called_with(self.test_alarm.id)

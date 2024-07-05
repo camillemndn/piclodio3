@@ -13,14 +13,10 @@ class AlarmClock(models.Model):
     friday = models.BooleanField(default=False)
     saturday = models.BooleanField(default=False)
     sunday = models.BooleanField(default=False)
-    hour = models.IntegerField(validators=[
-        MaxValueValidator(23),
-        MinValueValidator(0)
-    ])
-    minute = models.IntegerField(validators=[
-        MaxValueValidator(59),
-        MinValueValidator(0)
-    ])
+    hour = models.IntegerField(validators=[MaxValueValidator(23), MinValueValidator(0)])
+    minute = models.IntegerField(
+        validators=[MaxValueValidator(59), MinValueValidator(0)]
+    )
     enabled = models.BooleanField(default=True)
     auto_stop_minutes = models.IntegerField(default=0)
     webradio = models.ForeignKey(WebRadio, on_delete=models.CASCADE)

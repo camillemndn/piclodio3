@@ -10,7 +10,7 @@ class TestCreate(Base):
 
     def setUp(self):
         super(TestCreate, self).setUp()
-        self.url = reverse('api:alarmclocks:list_create')
+        self.url = reverse("api:alarmclocks:list_create")
 
     def test_create(self):
 
@@ -21,11 +21,13 @@ class TestCreate(Base):
             "hour": 8,
             "minute": 20,
             "enabled": False,
-            "webradio": self.test_webradio.id
+            "webradio": self.test_webradio.id,
         }
 
-        with patch.object(SchedulerManager, 'add_new_job', return_value=None) as mock_scheduler:
-            response = self.client.post(self.url, data, format='json')
+        with patch.object(
+            SchedulerManager, "add_new_job", return_value=None
+        ) as mock_scheduler:
+            response = self.client.post(self.url, data, format="json")
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
             self.assertEqual(AlarmClock.objects.count(), 3)
             mock_scheduler.assert_not_called()
@@ -38,11 +40,13 @@ class TestCreate(Base):
             "hour": 8,
             "minute": 20,
             "enabled": True,
-            "webradio": self.test_webradio.id
+            "webradio": self.test_webradio.id,
         }
 
-        with patch.object(SchedulerManager, 'add_new_job', return_value=None) as mock_scheduler:
-            response = self.client.post(self.url, data, format='json')
+        with patch.object(
+            SchedulerManager, "add_new_job", return_value=None
+        ) as mock_scheduler:
+            response = self.client.post(self.url, data, format="json")
             self.assertEqual(response.status_code, status.HTTP_201_CREATED)
             self.assertEqual(AlarmClock.objects.count(), 3)
             mock_scheduler.assert_called()

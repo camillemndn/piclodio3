@@ -9,4 +9,8 @@ class WebRadio(models.Model):
     is_default = models.BooleanField(default=False)
 
     def __str__(self):
-        return "[WebRadio] name: %s, url: %s, is_default: %s" % (self.name, self.url, self.is_default)
+        return "[WebRadio] name: %s, url: %s, is_default: %s" % (
+            self.name,
+            self.url,
+            self.is_default,
+        )

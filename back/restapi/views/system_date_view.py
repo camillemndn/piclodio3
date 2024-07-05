@@ -9,10 +9,10 @@ from restapi.serializers.clock_serializer import ClockSerializer
 class SystemDateView(APIView):
     @swagger_auto_schema(
         responses={
-            '200': ClockSerializer(),
+            "200": ClockSerializer(),
         },
-        operation_id='Clock',
-        operation_description='Get current system date et time'
+        operation_id="Clock",
+        operation_description="Get current system date et time",
     )
     def get(self, request):
 

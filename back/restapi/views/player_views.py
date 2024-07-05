@@ -12,13 +12,10 @@ from utils.player_manager import PlayerManager
 class PlayerStatus(APIView):
 
     @swagger_auto_schema(
-        responses={
-            '200': PlayerSerializer,
-            '400': "Bad Request"
-        },
+        responses={"200": PlayerSerializer, "400": "Bad Request"},
         security=[],
-        operation_id='Player status',
-        operation_description='Get the status of the player'
+        operation_id="Player status",
+        operation_description="Get the status of the player",
     )
     def get(self, request):
         """
@@ -43,13 +40,10 @@ class PlayerStatus(APIView):
 
     @swagger_auto_schema(
         request_body=PlayerSerializer,
-        responses={
-            '200': PlayerSerializer,
-            '400': "Bad Request"
-        },
+        responses={"200": PlayerSerializer, "400": "Bad Request"},
         security=[],
-        operation_id='Player control',
-        operation_description='Switch the status of the player'
+        operation_id="Player control",
+        operation_description="Switch the status of the player",
     )
     def post(self, request):
         serializer = PlayerSerializer(data=request.data)
@@ -90,9 +84,7 @@ class PlayerStatus(APIView):
 
             else:
                 player_manager.stop()
-                answer = {
-                    "active": False
-                }
+                answer = {"active": False}
                 return Response(answer)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
